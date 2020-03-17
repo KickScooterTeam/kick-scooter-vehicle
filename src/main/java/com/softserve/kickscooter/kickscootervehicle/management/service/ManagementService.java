@@ -1,4 +1,15 @@
-package com.softserve.kickscooter.kickscootervehicle.management.controller;
+package com.softserve.kickscooter.kickscootervehicle.management.service;
 
-public class ManagementService {
+import com.softserve.kickscooter.kickscootervehicle.management.dao.Scooter;
+import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterCreateDto;
+import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterInfoDto;
+
+import java.util.UUID;
+
+public interface ManagementService {
+    Iterable<UUID> getScootersId();
+    Iterable<ScooterInfoDto> getAllScooterInfo();
+    ScooterInfoDto getScooterInfo(UUID id);
+    Scooter createScooter(ScooterCreateDto dto);
+    Boolean deleteScooter(UUID id);
 }
