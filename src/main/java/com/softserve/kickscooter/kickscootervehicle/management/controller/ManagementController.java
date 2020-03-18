@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -24,25 +25,20 @@ public class ManagementController {
     public ResponseEntity<Iterable<UUID>> getScootersId(){
         log.debug("getScootersId method");
         log.debug(service.toString());
-        return new ResponseEntity<>(service.getScootersId(), HttpStatus.OK);
+        return ResponseEntity.ok(service.getScootersId());
     }
 
     @GetMapping("/info-all")
     public ResponseEntity<Iterable<ScooterInfoDto>> getAllScooterInfo(){
         log.debug("getAllScootersInfo method");
-        return new ResponseEntity<>(service.getAllScooterInfo(), HttpStatus.OK);
+        return ResponseEntity.ok(service.getAllScooterInfo());
     }
 
     @GetMapping("/info/{id}")
     public ResponseEntity<ScooterInfoDto> getScooterInfo(@PathVariable UUID id){
         log.debug("getScootersInfo method, uuid = " + id );
-        ScooterInfoDto infoDto = service.getScooterInfo(id);
-        if(infoDto.getId() != null) {
-            return new ResponseEntity<>(infoDto, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
+        Optional<ScooterInfoDto> infoDto = service.getScooterInfo(id);
+        return infoDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     //todo: response if not created
@@ -50,20 +46,20 @@ public class ManagementController {
     public ResponseEntity<UUID> createScooter(@RequestBody ScooterCreateDto dto){
         Scooter scooter = service.createScooter(dto);
         UUID id = scooter.getId();
-        log.debug("inside createScooter method, uuid new scooter" + id);
+        log.debug("Inside createScooter method, uuid new scooter" + id);
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/id/{id}")
     public ResponseEntity<UUID> deleteScooter(@PathVariable UUID id){
-        log.debug("inside deleteScooter method");
+        log.debug("Inside deleteScooter method");
         Boolean result = service.deleteScooter(id);
         if(result) {
             log.debug("successful delete, uuid = " + id);
-            return new ResponseEntity<>(id, HttpStatus.OK);
+            return ResponseEntity.ok(id);
         } else {
-            log.warn("unsuccesful delete, uuid = " + id);
-            return new ResponseEntity<>(id, HttpStatus.NOT_FOUND);
+            log.debug("unsuccesful delete, uuid = " + id);
+            return ResponseEntity.notFound().build();
         }
     }
 
