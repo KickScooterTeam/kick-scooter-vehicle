@@ -4,14 +4,14 @@ package com.softserve.kickscooter.kickscootervehicle.management.service;
 import com.softserve.kickscooter.kickscootervehicle.management.dao.Scooter;
 import com.softserve.kickscooter.kickscootervehicle.management.dao.ScooterRepository;
 import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterCreateDto;
-import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterInfoDto;
+import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterTechInfoDto;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -29,25 +29,26 @@ public class ScooterManagementService implements ManagementService {
         return scooter;
     }
 
-    public Optional<ScooterInfoDto> getScooterInfo(UUID id){
-        Optional<Scooter> optSc = scooterRepo.findById(id);
-        if(optSc.isPresent()) {
-            Scooter scooter = optSc.get();
-            return Optional.ofNullable(convService.convert(scooter, ScooterInfoDto.class));
-        } else {
-            return Optional.empty();
-        }
-
+    public Optional<ScooterTechInfoDto> getScooterInfo (UUID id){
+        return scooterRepo.findById(id)
+                .map(scooter -> convService.convert(scooter, ScooterTechInfoDto.class));
     }
 
-    //todo: pagination
-    public Iterable<ScooterInfoDto> getAllScooterInfo(){
-        Iterable<Scooter> scooters = scooterRepo.findAll();
-        ArrayList<ScooterInfoDto> result = new ArrayList<>();
-        for(Scooter sc : scooters) {
-            result.add(convService.convert(sc, ScooterInfoDto.class));
-        }
-        return result;
+//        Optional<Scooter> optSc = scooterRepo.findById(id);
+//        if(optSc.isPresent()) {
+//            Scooter scooter = optSc.get();
+//            return Optional.ofNullable(convService.convert(scooter, ScooterTechInfoDto.class));
+//        } else {
+//            return Optional.empty();
+//        }
+//
+//    }
+
+    public Iterable<ScooterTechInfoDto> getAllScooterInfo() {
+        return scooterRepo.findAll()
+                .stream()
+                .map(scooter -> convService.convert(scooter, ScooterTechInfoDto.class))
+                .collect(Collectors.toList());
     }
 
     //todo: custom query

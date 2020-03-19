@@ -2,7 +2,7 @@ package com.softserve.kickscooter.kickscootervehicle.management.controller;
 
 import com.softserve.kickscooter.kickscootervehicle.management.dao.Scooter;
 import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterCreateDto;
-import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterInfoDto;
+import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterTechInfoDto;
 import com.softserve.kickscooter.kickscootervehicle.management.service.ManagementService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/scooter")
+@RequestMapping("/scooters")
 @AllArgsConstructor
 public class ManagementController {
 
@@ -29,15 +29,15 @@ public class ManagementController {
     }
 
     @GetMapping("/info-all")
-    public ResponseEntity<Iterable<ScooterInfoDto>> getAllScooterInfo(){
+    public ResponseEntity<Iterable<ScooterTechInfoDto>> getAllScooterInfo(){
         log.debug("getAllScootersInfo method");
         return ResponseEntity.ok(service.getAllScooterInfo());
     }
 
     @GetMapping("/info/{id}")
-    public ResponseEntity<ScooterInfoDto> getScooterInfo(@PathVariable UUID id){
+    public ResponseEntity<ScooterTechInfoDto> getScooterInfo(@PathVariable UUID id){
         log.debug("getScootersInfo method, uuid = " + id );
-        Optional<ScooterInfoDto> infoDto = service.getScooterInfo(id);
+        Optional<ScooterTechInfoDto> infoDto = service.getScooterInfo(id);
         return infoDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 

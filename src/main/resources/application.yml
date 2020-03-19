@@ -1,0 +1,14 @@
+spring:
+    datasource:
+        password: pass
+        url: jdbc:postgresql://localhost:5432/scooter_vehicle
+        username: scooter
+    jpa:
+        hibernate:
+            ddl-auto: validate
+        show-sql: true
+    kafka:
+        consumer:
+            group-id: scooter
+    liquibase:
+        change-log: classpath:/db/changelog/db.changelog-master.xml

@@ -1,41 +1,41 @@
 package com.softserve.kickscooter.kickscootervehicle.management.dao;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Entity
-@Table(name = "scooter")
+@Table
+@EntityListeners(AuditingEntityListener.class)
 public class Scooter {
 
     @Id
-    @Column(name = "id", columnDefinition = "uuid")
+    @Column
     @GeneratedValue
     private UUID id;
 
-    @Column(name = "model_name")
+    @Column
     private String modelName;
 
-    @Column(name = "serial_number")
-    private String serialId;
+    @Column
+    private String serialNumber;
 
-    @Column(name = "alive")
-    private Boolean isAlive;
+    @Column
+    private Boolean alive;
 
-    @Column(name = "register_date")
+    @CreatedDate
+    @Column(nullable = false)//, columnDefinition = "TIMESTAMP")
     private LocalDateTime registerDate;
 
-    @Column(name = "expired_date")
-    private LocalDateTime expiredDate;
+    //@CreatedDate
+    @Column//(nullable = false, columnDefinition = "TIMESTAMP")
+    private LocalDate expiredDate;
 
 
 }
