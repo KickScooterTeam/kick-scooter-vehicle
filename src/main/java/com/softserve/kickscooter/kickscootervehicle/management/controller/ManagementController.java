@@ -21,44 +21,36 @@ public class ManagementController {
 
     private ManagementService service;
 
-    @GetMapping("/id")
-    public ResponseEntity<Iterable<UUID>> getScootersId(){
-        log.debug("getScootersId method");
-        log.debug(service.toString());
-        return ResponseEntity.ok(service.getScootersId());
-    }
-
-    @GetMapping("/info-all")
+    @GetMapping
     public ResponseEntity<Iterable<ScooterTechInfoDto>> getAllScooterInfo(){
-        log.debug("getAllScootersInfo method");
         return ResponseEntity.ok(service.getAllScooterInfo());
     }
 
-    @GetMapping("/info/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ScooterTechInfoDto> getScooterInfo(@PathVariable UUID id){
-        log.debug("getScootersInfo method, uuid = " + id );
+        log.debug("Retrieving scooter by id = " + id );
         Optional<ScooterTechInfoDto> infoDto = service.getScooterInfo(id);
         return infoDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     //todo: response if not created
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<UUID> createScooter(@RequestBody ScooterCreateDto dto){
         Scooter scooter = service.createScooter(dto);
         UUID id = scooter.getId();
-        log.debug("Inside createScooter method, uuid new scooter" + id);
+        log.debug("New scooter registred, uuid of new scooter {}", id);
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<UUID> deleteScooter(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteScooter(@PathVariable UUID id){
         log.debug("Inside deleteScooter method");
         Boolean result = service.deleteScooter(id);
         if(result) {
-            log.debug("successful delete, uuid = " + id);
-            return ResponseEntity.ok(id);
+            log.debug("Successful removing scooter, uuid = {}", id);
+            return ResponseEntity.noContent().build();
         } else {
-            log.debug("unsuccesful delete, uuid = " + id);
+            log.debug("Unsuccesful removing scooter, uuid = {}", id);
             return ResponseEntity.notFound().build();
         }
     }

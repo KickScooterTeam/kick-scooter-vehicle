@@ -34,15 +34,6 @@ public class ScooterManagementService implements ManagementService {
                 .map(scooter -> convService.convert(scooter, ScooterTechInfoDto.class));
     }
 
-//        Optional<Scooter> optSc = scooterRepo.findById(id);
-//        if(optSc.isPresent()) {
-//            Scooter scooter = optSc.get();
-//            return Optional.ofNullable(convService.convert(scooter, ScooterTechInfoDto.class));
-//        } else {
-//            return Optional.empty();
-//        }
-//
-//    }
 
     public Iterable<ScooterTechInfoDto> getAllScooterInfo() {
         return scooterRepo.findAll()
