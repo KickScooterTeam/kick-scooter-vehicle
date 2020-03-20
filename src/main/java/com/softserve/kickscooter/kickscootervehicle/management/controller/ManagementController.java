@@ -1,8 +1,8 @@
 package com.softserve.kickscooter.kickscootervehicle.management.controller;
 
-import com.softserve.kickscooter.kickscootervehicle.management.dao.Scooter;
 import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterCreateDto;
 import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterTechInfoDto;
+import com.softserve.kickscooter.kickscootervehicle.management.model.Scooter;
 import com.softserve.kickscooter.kickscootervehicle.management.service.ManagementService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,30 +22,29 @@ public class ManagementController {
     private ManagementService service;
 
     @GetMapping
-    public ResponseEntity<Iterable<ScooterTechInfoDto>> getAllScooterInfo(){
-        return ResponseEntity.ok(service.getAllScooterInfo());
+    public ResponseEntity<Iterable<ScooterTechInfoDto>> getAllScooterTechInfo(){
+        return ResponseEntity.ok(service.getAllScooterTechInfo());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ScooterTechInfoDto> getScooterInfo(@PathVariable UUID id){
+    public ResponseEntity<ScooterTechInfoDto> getScooterTechInfo(@PathVariable UUID id){
         log.debug("Retrieving scooter by id = " + id );
-        Optional<ScooterTechInfoDto> infoDto = service.getScooterInfo(id);
+        Optional<ScooterTechInfoDto> infoDto = service.getScooterTechInfo(id);
         return infoDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    //todo: response if not created
     @PostMapping
-    public ResponseEntity<UUID> createScooter(@RequestBody ScooterCreateDto dto){
-        Scooter scooter = service.createScooter(dto);
+    public ResponseEntity<UUID> registerScooter(@RequestBody ScooterCreateDto dto){
+        Scooter scooter = service.registerScooter(dto);
         UUID id = scooter.getId();
-        log.debug("New scooter registred, uuid of new scooter {}", id);
+        log.info("New scooter registred, uuid of new scooter {}", id);
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<Void> deleteScooter(@PathVariable UUID id){
-        log.debug("Inside deleteScooter method");
-        Boolean result = service.deleteScooter(id);
+    public ResponseEntity<Void> utilizeScooter(@PathVariable UUID id){
+        log.info("Utilizing scooter with uuid = {}", id );
+        Boolean result = service.utilizeScooter(id);
         if(result) {
             log.debug("Successful removing scooter, uuid = {}", id);
             return ResponseEntity.noContent().build();
@@ -54,5 +53,4 @@ public class ManagementController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }

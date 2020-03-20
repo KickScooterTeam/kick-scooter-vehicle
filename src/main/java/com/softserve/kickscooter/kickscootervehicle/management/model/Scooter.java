@@ -1,4 +1,4 @@
-package com.softserve.kickscooter.kickscootervehicle.management.dao;
+package com.softserve.kickscooter.kickscootervehicle.management.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,31 +11,25 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table
+//@Table
 @EntityListeners(AuditingEntityListener.class)
 public class Scooter {
 
     @Id
-    @Column
     @GeneratedValue
     private UUID id;
 
-    @Column
     private String modelName;
 
-    @Column
     private String serialNumber;
 
-    @Column
-    private Boolean alive;
-
     @CreatedDate
-    @Column(nullable = false)//, columnDefinition = "TIMESTAMP")
     private LocalDateTime registerDate;
 
-    //@CreatedDate
-    @Column//(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDate expiredDate;
+
+    @Enumerated(EnumType.STRING)
+    private ScooterStatus status;
 
 
 }

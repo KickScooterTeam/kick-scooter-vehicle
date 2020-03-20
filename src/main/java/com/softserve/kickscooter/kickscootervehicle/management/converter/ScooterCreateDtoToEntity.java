@@ -1,8 +1,9 @@
 package com.softserve.kickscooter.kickscootervehicle.management.converter;
 
 
-import com.softserve.kickscooter.kickscootervehicle.management.dao.Scooter;
 import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterCreateDto;
+import com.softserve.kickscooter.kickscootervehicle.management.model.Scooter;
+import com.softserve.kickscooter.kickscootervehicle.management.model.ScooterStatus;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ public class ScooterCreateDtoToEntity implements Converter<ScooterCreateDto, Sco
         Scooter scooter = new Scooter();
         scooter.setModelName(scooterCreateDto.getModelName());
         scooter.setSerialNumber(scooterCreateDto.getSerialNumber());
-        scooter.setAlive(true);
+        scooter.setStatus(ScooterStatus.ON_INSPECTION);
         return scooter;
     }
 }

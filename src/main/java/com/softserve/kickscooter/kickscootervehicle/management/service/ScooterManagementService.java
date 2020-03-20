@@ -1,14 +1,16 @@
 package com.softserve.kickscooter.kickscootervehicle.management.service;
 
 
-import com.softserve.kickscooter.kickscootervehicle.management.dao.Scooter;
-import com.softserve.kickscooter.kickscootervehicle.management.dao.ScooterRepository;
 import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterCreateDto;
 import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterTechInfoDto;
+import com.softserve.kickscooter.kickscootervehicle.management.model.Scooter;
+import com.softserve.kickscooter.kickscootervehicle.management.model.ScooterStatus;
+import com.softserve.kickscooter.kickscootervehicle.management.repository.ScooterRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,42 +23,34 @@ public class ScooterManagementService implements ManagementService {
     private ConversionService convService;
     //private ScooterStatusService statusService;
 
-    public Scooter createScooter(ScooterCreateDto dto){
+    public Scooter registerScooter(ScooterCreateDto dto){
         Scooter scooter = convService.convert(dto, Scooter.class);
         scooterRepo.save(scooter);
-        //UUID id = scooter.getId();
-        //statusService.newScooter(id);
         return scooter;
     }
 
-    public Optional<ScooterTechInfoDto> getScooterInfo (UUID id){
+    public Optional<ScooterTechInfoDto> getScooterTechInfo(UUID id){
         return scooterRepo.findById(id)
                 .map(scooter -> convService.convert(scooter, ScooterTechInfoDto.class));
     }
 
-
-    public Iterable<ScooterTechInfoDto> getAllScooterInfo() {
+    public Iterable<ScooterTechInfoDto> getAllScooterTechInfo() {
         return scooterRepo.findAll()
                 .stream()
                 .map(scooter -> convService.convert(scooter, ScooterTechInfoDto.class))
                 .collect(Collectors.toList());
     }
 
-    //todo: custom query
-    public Iterable<UUID> getScootersId(){
-        return scooterRepo.getAliveIds();
-    }
-
-
-    public Boolean deleteScooter(UUID id){
-        boolean present = scooterRepo.findById(id).isPresent();
-        if(present) {
-            scooterRepo.excludeById(id);
-            //   statusService.deleteScooter(id);
-            return true;
-        } else {
-            return false;
+    @Transactional
+    public Boolean utilizeScooter(UUID id) {
+        if (scooterRepo.existsById(id)) {
+            Scooter scooter = scooterRepo.getOne(id);
+            if (scooter.getStatus() != ScooterStatus.ACTIVE) {
+                scooter.setStatus(ScooterStatus.BROKEN);
+                scooterRepo.save(scooter);
+                return true;
+            }
         }
+        return false;
     }
-
 }

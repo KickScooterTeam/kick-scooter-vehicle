@@ -1,5 +1,6 @@
 package com.softserve.kickscooter.kickscootervehicle.management.dto;
 
+import com.softserve.kickscooter.kickscootervehicle.management.model.ScooterStatus;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -13,6 +14,6 @@ public class ScooterTechInfoDto {
     private String serialNumber;
     private LocalDateTime registerDate;
     private LocalDate expireDate;
-    private Boolean isAlive;
+    private ScooterStatus status;
 
 }

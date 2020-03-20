@@ -5,26 +5,6 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <include file="classpath:/db/changelog/changelog-1.2.xml"/>
 
-    <changeSet id="3" author="foxrev">
-        <createTable tableName="scooter">
-            <column name="id" type="uuid">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="serial_number" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="model_name" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="alive" type="boolean"
-                    defaultValueBoolean="true"/>
-            <column name="register_date" type="date">
-                <constraints nullable="false"/>
-            </column>
-            <column name="expired_date" type="date">
-                <constraints nullable="true"/>
-            </column>
-        </createTable>
-    </changeSet>
 </databaseChangeLog>
