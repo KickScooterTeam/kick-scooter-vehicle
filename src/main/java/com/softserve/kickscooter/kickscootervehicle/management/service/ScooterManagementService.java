@@ -21,7 +21,6 @@ public class ScooterManagementService implements ManagementService {
 
     private ScooterRepository scooterRepo;
     private ConversionService convService;
-    //private ScooterStatusService statusService;
 
     public Scooter registerScooter(ScooterCreateDto dto){
         Scooter scooter = convService.convert(dto, Scooter.class);
