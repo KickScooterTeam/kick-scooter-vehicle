@@ -28,7 +28,7 @@ public class ManagementController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ScooterTechInfoDto> getScooterTechInfo(@PathVariable UUID id){
-        log.debug("Retrieving scooter by id = " + id );
+        log.info("Retrieving scooter by id = " + id );
         Optional<ScooterTechInfoDto> infoDto = service.getScooterTechInfo(id);
         return infoDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }

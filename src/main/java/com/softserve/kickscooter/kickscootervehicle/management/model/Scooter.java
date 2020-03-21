@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @Data
 @Entity
-//@Table
 @EntityListeners(AuditingEntityListener.class)
 public class Scooter {
 

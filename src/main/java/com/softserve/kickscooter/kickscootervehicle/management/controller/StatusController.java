@@ -4,6 +4,7 @@ import com.softserve.kickscooter.kickscootervehicle.management.service.StatusSer
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,34 +19,27 @@ public class StatusController {
 
     private StatusService statusService;
 
-    //todo: Storing and retrieving actual gps data for every scooter
-//    @GetMapping
-//    public ResponseEntity<List<ScooterStatusDto>> getWorkingScootersStatus(){
-//        List<ScooterStatusDto> statusDto = statusService.getActiveAndFreeScooters();
-//        return ResponseEntity.of()
-//    }
-
     @PutMapping("/acquire/{id}")
-    public ResponseEntity<String> acquireScooter(UUID id){
+    public ResponseEntity<String> acquireScooter(@PathVariable UUID id){
         statusService.acquireScooter(id);
         return ResponseEntity.ok("Successful aquire scooter, id" + id);
     }
 
     @PutMapping("/free/{id}")
-    public ResponseEntity<String> freeScooter(UUID id){
+    public ResponseEntity<String> freeScooter(@PathVariable UUID id){
         statusService.freeScooter(id);
         return ResponseEntity.ok("Successful aquire scooter, id" + id);
 
     }
 
     @PutMapping("/retrieve/{id}")
-    public ResponseEntity<String> retrieveScooter(UUID id){
+    public ResponseEntity<String> retrieveScooter(@PathVariable UUID id){
         statusService.retrieveScooter(id);
         return ResponseEntity.ok("Successful aquire scooter, id" + id);
     }
 
     @PutMapping("/inspect/{id}")
-    public ResponseEntity<String> takeScooterOnInspection(UUID id){
+    public ResponseEntity<String> takeScooterOnInspection(@PathVariable UUID id){
         statusService.onInspection(id);
         return ResponseEntity.ok("Successful aquire scooter, id" + id);
 

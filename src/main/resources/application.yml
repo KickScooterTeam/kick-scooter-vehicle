@@ -8,7 +8,13 @@ spring:
             ddl-auto: validate
         show-sql: true
     kafka:
-        consumer:
-            group-id: scooter
+        producer:
+            properties:
+                client.id: "test"
+                acks: "1"
+                retries: "5"
+                key.serializer: "org.apache.kafka.common.serialization.StringSerializer"
+                value.serializer: "org.apache.kafka.common.serialization.JsonSerializer"
+                linger.ms: "10"
     liquibase:
         change-log: classpath:/db/changelog/db.changelog-master.xml
