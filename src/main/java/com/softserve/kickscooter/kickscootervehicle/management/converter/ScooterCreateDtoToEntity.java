@@ -16,6 +16,9 @@ public class ScooterCreateDtoToEntity implements Converter<ScooterCreateDto, Sco
         scooter.setModelName(scooterCreateDto.getModelName());
         scooter.setSerialNumber(scooterCreateDto.getSerialNumber());
         scooter.setStatus(ScooterStatus.ON_INSPECTION);
+        scooter.setActualLongitude(0.0);
+        scooter.setActualLatitude(0.0);
+        scooter.setBattery((short) 0);
         return scooter;
     }
 }

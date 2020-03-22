@@ -6,7 +6,6 @@ import com.softserve.kickscooter.kickscootervehicle.management.model.Scooter;
 import com.softserve.kickscooter.kickscootervehicle.management.service.ManagementService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +37,7 @@ public class ManagementController {
         Scooter scooter = service.registerScooter(dto);
         UUID id = scooter.getId();
         log.info("New scooter registred, uuid of new scooter {}", id);
-        return new ResponseEntity<>(id, HttpStatus.CREATED);
+        return ResponseEntity.status(201).body(id);
     }
 
     @DeleteMapping("/id/{id}")

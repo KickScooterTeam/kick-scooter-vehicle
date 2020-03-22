@@ -5,7 +5,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-    <changeSet id="changelog-1.1" author="foxrev">
+    <changeSet id="changelog-1.7" author="foxrev">
         <createTable tableName="scooter">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
@@ -22,7 +22,18 @@
             <column name="expired_date" type="date">
                 <constraints nullable="true"/>
             </column>
-            <column name="status" type="text"/>
+            <column name="status" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="actual_longitude" type="double precision">
+                <constraints nullable="false"/>
+            </column>
+            <column name="actual_latitude" type="double precision">
+                <constraints nullable="false"/>
+            </column>
+            <column name="battery" type="smallint">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <createTable tableName="scooter_status_details">
             <column name="id" type="bigint">
@@ -31,7 +42,10 @@
             <column name="scooter_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
-            <column name="gps_data" type="text">
+            <column name="longitude" type="double precision">
+                <constraints nullable="false"/>
+            </column>
+            <column name="latitude" type="double precision">
                 <constraints nullable="false"/>
             </column>
             <column name="battery" type="smallint">
