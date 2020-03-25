@@ -1,7 +1,7 @@
 package com.softserve.kickscooter.kickscootervehicle.management.service;
 
 import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterStatusDto;
-import com.softserve.kickscooter.kickscootervehicle.management.exceptions.ScooterIsDeadException;
+import com.softserve.kickscooter.kickscootervehicle.management.exceptions.ScooterIsDecommisionedException;
 import com.softserve.kickscooter.kickscootervehicle.management.model.Scooter;
 import com.softserve.kickscooter.kickscootervehicle.management.model.ScooterStatus;
 import com.softserve.kickscooter.kickscootervehicle.management.repository.ScooterRepository;
@@ -24,77 +24,62 @@ public class ScooterStatusService implements StatusService {
         return null;
     }
 
-    @Override
     public ScooterStatusDto getScooterStatusDetails(UUID id){
         Scooter scooter = scooterRepo.getOne(id);
-        if(scooter.getStatus() == ScooterStatus.BROKEN){
-            throw new ScooterIsDeadException();
+        if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
+            throw new ScooterIsDecommisionedException();
         }
         return convService.convert(scooter, ScooterStatusDto.class);
     }
 
-    @Override
     public Boolean acquireScooter(UUID id) {
         Scooter scooter = scooterRepo.getOne(id);
-        if(scooter.getStatus() == ScooterStatus.BROKEN){
-            throw new ScooterIsDeadException();
+        if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
+            throw new ScooterIsDecommisionedException();
         }
-        scooter.setStatus(ScooterStatus.ACTIVE);
+        scooter.setStatus(ScooterStatus.IN_USE);
         scooterRepo.save(scooter);
         return true;
     }
 
-    @Override
     public Boolean freeScooter(UUID id) {
         Scooter scooter = scooterRepo.getOne(id);
-        if(scooter.getStatus() == ScooterStatus.BROKEN){
-            throw new ScooterIsDeadException();
+        if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
+            throw new ScooterIsDecommisionedException();
         }
         scooter.setStatus(ScooterStatus.FREE);
         scooterRepo.save(scooter);
         return true;
     }
 
-    @Override
     public Boolean retrieveScooter(UUID id) {
         Scooter scooter = scooterRepo.getOne(id);
-        if(scooter.getStatus() == ScooterStatus.BROKEN){
-            throw new ScooterIsDeadException();
+        if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
+            throw new ScooterIsDecommisionedException();
         }
         scooter.setStatus(ScooterStatus.FREE);
         scooterRepo.save(scooter);
         return true;
     }
 
-    @Override
     public Boolean onInspection(UUID id) {
         Scooter scooter = scooterRepo.getOne(id);
-        if(scooter.getStatus() == ScooterStatus.BROKEN){
-            throw new ScooterIsDeadException();
+        if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
+            throw new ScooterIsDecommisionedException();
         }
         scooter.setStatus(ScooterStatus.ON_INSPECTION);
         scooterRepo.save(scooter);
         return true;
     }
 
-    @Override
     public ScooterStatus getCurrentStatus(UUID id) {
         Scooter scooter = scooterRepo.getOne(id);
-        if(scooter.getStatus() == ScooterStatus.BROKEN){
-            throw new ScooterIsDeadException();
+        if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
+            throw new ScooterIsDecommisionedException();
         }
         return scooter.getStatus();
     }
 
-    @Override
-    public void saveActualStatusData(UUID id, double latitude, double longitude){
-        Scooter scooter = scooterRepo.getOne(id);
-        scooter.setActualLatitude(latitude);
-        scooter.setActualLongitude(longitude);
-        scooterRepo.save(scooter);
-    }
-
-    @Override
     public void saveActualStatusData(UUID id, double latitude, double longitude, short battery){
         Scooter scooter = scooterRepo.getOne(id);
         scooter.setActualLatitude(latitude);

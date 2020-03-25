@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -33,23 +33,20 @@ public class ScooterManagementService implements ManagementService {
                 .map(scooter -> convService.convert(scooter, ScooterTechInfoDto.class));
     }
 
-    public Iterable<ScooterTechInfoDto> getAllScooterTechInfo() {
+    public List<ScooterTechInfoDto> getAllScooterTechInfo() {
         return scooterRepo.findAll()
                 .stream()
                 .map(scooter -> convService.convert(scooter, ScooterTechInfoDto.class))
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public Boolean utilizeScooter(UUID id) {
-        if (scooterRepo.existsById(id)) {
-            Scooter scooter = scooterRepo.getOne(id);
-            if (scooter.getStatus() != ScooterStatus.ACTIVE) {
-                scooter.setStatus(ScooterStatus.BROKEN);
+    public boolean utilizeScooter(UUID id) {
+        Scooter scooter = scooterRepo.getOne(id);
+            if (scooter.getStatus() == ScooterStatus.ON_INSPECTION) {
+                scooter.setStatus(ScooterStatus.DECOMMISSIONED);
                 scooterRepo.save(scooter);
                 return true;
             }
-        }
         return false;
     }
 }

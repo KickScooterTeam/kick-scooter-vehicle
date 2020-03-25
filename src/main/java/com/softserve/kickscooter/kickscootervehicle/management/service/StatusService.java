@@ -16,6 +16,5 @@ public interface StatusService {
     Boolean retrieveScooter(UUID id);
     Boolean onInspection(UUID id);
     ScooterStatus getCurrentStatus(UUID id);
-    void saveActualStatusData(UUID id, double latitude, double longitude);
     void saveActualStatusData(UUID id, double latitude, double longitude, short battery);
 }

@@ -16,22 +16,23 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class KafkaController {
 
-    private static final String statusTopic = "all_scooter_data_topic";
-    private static final String rawDataTopic = "raw-data";
+    private static final String STATUS_TOPIC = "all-scooter-data-topic";
+    private static final String RAW_DATA = "raw-data";
 
     private final KafkaTemplate<String, ScooterStatusDto> template;
 
-    private StatusService statusService;
+    private final StatusService statusService;
 
+    //todo: send to active scooter
+    //todo: send to free scooter topic
     public void sendStatusDataToTopic(ScooterStatusDto dto){
-        log.info("Send data to topic " + statusTopic + " {}", dto);
-        template.send(statusTopic, dto);
+        log.info("Send data to topic '{}': {} ", STATUS_TOPIC, dto);
+        template.send(STATUS_TOPIC, dto);
     }
 
-    //todo: perisist in this method dump of gps/battery status
-    @KafkaListener(topics = rawDataTopic)
+    @KafkaListener(topics = RAW_DATA)
     public void listen(ScooterRawDataDto rawDto) {
-        log.info("Received from " + rawDataTopic + " {}", rawDto);
+        log.info("Received from '{}' : {}", RAW_DATA, rawDto);
         ScooterStatus status = statusService.getCurrentStatus(rawDto.getId());
         var statusDto = new ScooterStatusDto();
         statusDto.setId(rawDto.getId());

@@ -8,7 +8,6 @@ import java.util.UUID;
 
 @Data
 public class ScooterStatusDto {
-
     UUID id;
     ScooterStatus status;
     Point gpsPoint;

@@ -7,6 +7,4 @@ import java.util.UUID;
 
 public interface ScooterRepository extends JpaRepository<Scooter, UUID> {
 
-    //todo: cache operations
-
 }

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,13 +22,13 @@ public class ManagementController {
     private ManagementService service;
 
     @GetMapping
-    public ResponseEntity<Iterable<ScooterTechInfoDto>> getAllScooterTechInfo(){
+    public ResponseEntity<List<ScooterTechInfoDto>> getAllScooterTechInfo(){
         return ResponseEntity.ok(service.getAllScooterTechInfo());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ScooterTechInfoDto> getScooterTechInfo(@PathVariable UUID id){
-        log.info("Retrieving scooter by id = " + id );
+        log.info("Retrieving scooter by id = {}", id );
         Optional<ScooterTechInfoDto> infoDto = service.getScooterTechInfo(id);
         return infoDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -36,19 +37,19 @@ public class ManagementController {
     public ResponseEntity<UUID> registerScooter(@RequestBody ScooterCreateDto dto){
         Scooter scooter = service.registerScooter(dto);
         UUID id = scooter.getId();
-        log.info("New scooter registred, uuid of new scooter {}", id);
+        log.info("New scooter registered, uuid of new scooter {}", id);
         return ResponseEntity.status(201).body(id);
     }
 
-    @DeleteMapping("/id/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> utilizeScooter(@PathVariable UUID id){
         log.info("Utilizing scooter with uuid = {}", id );
-        Boolean result = service.utilizeScooter(id);
+        boolean result = service.utilizeScooter(id);
         if(result) {
-            log.debug("Successful removing scooter, uuid = {}", id);
+            log.debug("Successful removal of scooter, uuid = {}", id);
             return ResponseEntity.noContent().build();
         } else {
-            log.debug("Unsuccesful removing scooter, uuid = {}", id);
+            log.debug("Unsuccesful removal of scooter, uuid = {}", id);
             return ResponseEntity.notFound().build();
         }
     }
