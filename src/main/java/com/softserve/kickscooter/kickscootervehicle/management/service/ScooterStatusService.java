@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,6 +73,7 @@ public class ScooterStatusService implements StatusService {
         return true;
     }
 
+    @Transactional
     public ScooterStatus getCurrentStatus(UUID id) {
         Scooter scooter = scooterRepo.getOne(id);
         if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
@@ -80,6 +82,7 @@ public class ScooterStatusService implements StatusService {
         return scooter.getStatus();
     }
 
+    @Transactional
     public void saveActualStatusData(UUID id, double latitude, double longitude, short battery){
         Scooter scooter = scooterRepo.getOne(id);
         scooter.setActualLatitude(latitude);

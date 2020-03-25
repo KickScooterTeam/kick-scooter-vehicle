@@ -5,7 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @Data
@@ -22,9 +22,9 @@ public class Scooter {
     private String serialNumber;
 
     @CreatedDate
-    private ZonedDateTime registerDate;
+    private Instant registerDate;
 
-    private ZonedDateTime expiredDate;
+    private Instant expiredDate;
 
     @Enumerated(EnumType.STRING)
     private ScooterStatus status;

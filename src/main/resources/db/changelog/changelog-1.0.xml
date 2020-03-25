@@ -16,11 +16,11 @@
             <column name="model_name" type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="register_date" type="timestamp">
+            <column name="register_date" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="expired_date" type="timestamp">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="status" type="text">
                 <constraints nullable="false"/>

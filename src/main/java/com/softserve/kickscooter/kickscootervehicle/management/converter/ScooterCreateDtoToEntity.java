@@ -7,8 +7,6 @@ import com.softserve.kickscooter.kickscootervehicle.management.model.ScooterStat
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.time.ZonedDateTime;
-
 
 @Component
 public class ScooterCreateDtoToEntity implements Converter<ScooterCreateDto, Scooter> {
@@ -18,7 +16,6 @@ public class ScooterCreateDtoToEntity implements Converter<ScooterCreateDto, Sco
         scooter.setModelName(scooterCreateDto.getModelName());
         scooter.setSerialNumber(scooterCreateDto.getSerialNumber());
         scooter.setStatus(ScooterStatus.ON_INSPECTION);
-        scooter.setExpiredDate(ZonedDateTime.now().plusYears(1L));
         scooter.setActualLongitude(0.0);
         scooter.setActualLatitude(0.0);
         scooter.setBattery((short) 0);

@@ -30,7 +30,7 @@ public class KafkaController {
         template.send(STATUS_TOPIC, dto);
     }
 
-    @KafkaListener(topics = RAW_DATA)
+    @KafkaListener(topics = RAW_DATA, groupId = "${spring.kafka.consumer.group-id}")
     public void listen(ScooterRawDataDto rawDto) {
         log.info("Received from '{}' : {}", RAW_DATA, rawDto);
         ScooterStatus status = statusService.getCurrentStatus(rawDto.getId());
