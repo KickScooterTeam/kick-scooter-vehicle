@@ -5,6 +5,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -34,6 +36,8 @@ public class Scooter {
 
     private Double actualLatitude;
 
+    @Min(value = 0, message = "The battery charge must not be less than 0%.")
+    @Max(value = 100, message = "The battery charge must not exceed than 100%.")
     private Short battery;
 
 
