@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,6 +45,7 @@ public class ScooterManagementService implements ManagementService {
         Scooter scooter = scooterRepo.getOne(id);
             if (scooter.getStatus() == ScooterStatus.ON_INSPECTION) {
                 scooter.setStatus(ScooterStatus.DECOMMISSIONED);
+                scooter.setExpiredDate(Instant.now());
                 scooterRepo.save(scooter);
                 return true;
             }

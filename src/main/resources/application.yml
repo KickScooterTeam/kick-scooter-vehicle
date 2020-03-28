@@ -6,30 +6,21 @@ spring:
     jpa:
         hibernate:
             ddl-auto: validate
-
         show-sql: true
-
-        properties:
-            hibernate:
-                enable_lazy_load_no_trans = true:
+    jackson
     kafka:
         bootstrap-servers: localhost:9092,localhost:9093
         producer:
-            key-serializer: org.apache.kafka.common.serialization.StringSerializer
             value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
             properties:
-                spring.json.trusted.packages: "*"
                 spring.json.type.mapping: >
                     status:com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterStatusDto
         consumer:
-            group-id: "scooter.low-level"
-            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            group-id: scooter
             value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
             properties:
-                spring.json.trusted.packages: "*"
                 spring.json.type.mapping: >
                     raw:com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterRawDataDto
-
     liquibase:
         change-log: classpath:/db/changelog/db.changelog-master.xml
 
