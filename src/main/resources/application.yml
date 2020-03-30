@@ -7,7 +7,6 @@ spring:
         hibernate:
             ddl-auto: validate
         show-sql: true
-    jackson
     kafka:
         bootstrap-servers: localhost:9092,localhost:9093
         producer:
@@ -23,7 +22,3 @@ spring:
                     raw:com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterRawDataDto
     liquibase:
         change-log: classpath:/db/changelog/db.changelog-master.xml
-
-
-server:
-    port: 8085

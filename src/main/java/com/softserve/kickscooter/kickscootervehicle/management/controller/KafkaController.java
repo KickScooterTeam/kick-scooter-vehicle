@@ -34,8 +34,8 @@ public class KafkaController {
         log.info("Send data to topic '{}': {} ", FREE_TOPIC, dto);
         template.send(FREE_TOPIC, dto);
     }
-
-    @KafkaListener(topics = RAW_DATA, groupId = "${spring.kafka.consumer.group-id}")
+    
+    @KafkaListener(topics = RAW_DATA)
     public void listen(ScooterRawDataDto rawDto) {
         log.info("Received from '{}' : {}", RAW_DATA, rawDto);
         try {
