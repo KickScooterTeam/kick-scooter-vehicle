@@ -1,0 +1,19 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="load data to table" author="Mary">
+        <loadData encoding="UTF-8" file="classpath:data/data.csv" tableName="scooter" separator=";">
+          <column name="id" type="uuid"/>
+            <column name="serial_number" type="STRING"/>
+            <column name="model_name" type="STRING"/>
+            <column name="register_date" type="timestamp"/>
+            <column name="expired_date" type="timestamp"/>
+            <column name="status" type="STRING"/>
+            <column name="actual_longitude" type="NUMERIC"/>
+            <column name="actual_latitude" type="NUMERIC"/>
+            <column name="battery" type="NUMERIC"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>
