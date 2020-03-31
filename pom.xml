@@ -88,5 +88,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>kick-scooter-vehicle</finalName>
 	</build>
 </project>
