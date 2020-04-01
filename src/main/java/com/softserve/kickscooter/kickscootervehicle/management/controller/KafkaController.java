@@ -8,7 +8,7 @@ import com.softserve.kickscooter.kickscootervehicle.management.model.ScooterStat
 import com.softserve.kickscooter.kickscootervehicle.management.service.StatusService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.geo.Point;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -22,16 +22,17 @@ public class KafkaController {
     private static final String FREE_TOPIC = "free-scooter-data";
     private static final String RAW_DATA = "raw-data";
 
-    private final KafkaTemplate<String, ScooterStatusDto> template;
+    private KafkaTemplate<String, ScooterStatusDto> template;
 
-    private final StatusService statusService;
+    private StatusService statusService;
+    private ConversionService convServ;
 
-    public void sendInUseStatusDataToTopic(ScooterStatusDto dto){
+    private void sendInUseStatusDataToTopic(ScooterStatusDto dto){
         log.info("Send data to topic '{}': {} ", IN_USE_TOPIC, dto);
         template.send(IN_USE_TOPIC, dto);
     }
 
-    public void sendFreeStatusDataToTopic(ScooterStatusDto dto){
+    private void sendFreeStatusDataToTopic(ScooterStatusDto dto){
         log.info("Send data to topic '{}': {} ", FREE_TOPIC, dto);
         template.send(FREE_TOPIC, dto);
     }
@@ -40,17 +41,10 @@ public class KafkaController {
     public void listen(ScooterRawDataDto rawDto) {
         log.info("Received from '{}' : {}", RAW_DATA, rawDto);
         try {
+            var statusDto = convServ.convert(rawDto, ScooterStatusDto.class);
             ScooterStatus status = statusService.getCurrentStatus(rawDto.getId());
-            var statusDto = new ScooterStatusDto();
-            statusDto.setId(rawDto.getId());
-            statusDto.setGpsPoint(new Point(rawDto.getLatitude(), rawDto.getLongitude()));
             statusDto.setStatus(status);
-            statusDto.setBattery(rawDto.getBattery());
-
-            statusService.saveActualStatusData(rawDto.getId(),
-                    rawDto.getLatitude(),
-                    rawDto.getLongitude(),
-                    rawDto.getBattery());
+            statusService.saveActualStatusData(statusDto);
 
             if(statusDto.getStatus() == ScooterStatus.IN_USE) {
                 sendInUseStatusDataToTopic(statusDto);

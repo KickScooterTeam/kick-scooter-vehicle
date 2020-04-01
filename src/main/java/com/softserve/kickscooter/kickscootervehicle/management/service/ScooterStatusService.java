@@ -22,17 +22,13 @@ public class ScooterStatusService implements StatusService {
 
     public ScooterStatusDto getScooterStatusDetails(UUID id){
         Scooter scooter = scooterRepo.findById(id).orElseThrow(ScooterNotFoundException::new);
-        if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
-            throw new ScooterIsDecommisionedException();
-        }
+        checkDecomissioned(scooter);
         return convService.convert(scooter, ScooterStatusDto.class);
     }
 
     public Boolean acquireScooter(UUID id) {
         Scooter scooter = scooterRepo.findById(id).orElseThrow(ScooterNotFoundException::new);
-        if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
-            throw new ScooterIsDecommisionedException();
-        }
+        checkDecomissioned(scooter);
         scooter.setStatus(ScooterStatus.IN_USE);
         scooterRepo.save(scooter);
         return true;
@@ -40,9 +36,7 @@ public class ScooterStatusService implements StatusService {
 
     public Boolean freeScooter(UUID id) {
         Scooter scooter = scooterRepo.findById(id).orElseThrow(ScooterNotFoundException::new);
-        if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
-            throw new ScooterIsDecommisionedException();
-        }
+        checkDecomissioned(scooter);
         scooter.setStatus(ScooterStatus.FREE);
         scooterRepo.save(scooter);
         return true;
@@ -50,9 +44,7 @@ public class ScooterStatusService implements StatusService {
 
     public Boolean retrieveScooter(UUID id) {
         Scooter scooter = scooterRepo.findById(id).orElseThrow(ScooterNotFoundException::new);
-        if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
-            throw new ScooterIsDecommisionedException();
-        }
+        checkDecomissioned(scooter);
         if(scooter.getBattery() < 50){
             throw new ScooterIsNotRechargedException("Scooter battery must be charged more than 50%. " +
                     "Current battery: " + scooter.getBattery());
@@ -64,9 +56,7 @@ public class ScooterStatusService implements StatusService {
 
     public Boolean onInspection(UUID id) {
         Scooter scooter = scooterRepo.findById(id).orElseThrow(ScooterNotFoundException::new);
-        if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
-            throw new ScooterIsDecommisionedException();
-        }
+        checkDecomissioned(scooter);
         scooter.setStatus(ScooterStatus.ON_INSPECTION);
         scooterRepo.save(scooter);
         return true;
@@ -75,19 +65,23 @@ public class ScooterStatusService implements StatusService {
     @Transactional
     public ScooterStatus getCurrentStatus(UUID id) {
         Scooter scooter = scooterRepo.findById(id).orElseThrow(ScooterNotFoundException::new);
-        if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
-            throw new ScooterIsDecommisionedException();
-        }
+        checkDecomissioned(scooter);
         return scooter.getStatus();
     }
 
     @Transactional
-    public void saveActualStatusData(UUID id, double latitude, double longitude, short battery){
-        Scooter scooter = scooterRepo.findById(id).orElseThrow(ScooterNotFoundException::new);
-        scooter.setActualLatitude(latitude);
-        scooter.setActualLongitude(longitude);
-        scooter.setBattery(battery);
+    public void saveActualStatusData(ScooterStatusDto dto){
+        Scooter scooter = scooterRepo.findById(dto.getId()).orElseThrow(ScooterNotFoundException::new);
+        scooter.setActualLatitude(dto.getGpsPoint().getX());
+        scooter.setActualLongitude(dto.getGpsPoint().getY());
+        scooter.setBattery(dto.getBattery());
         scooterRepo.save(scooter);
+    }
+
+    private void checkDecomissioned(Scooter scooter){
+        if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
+            throw new ScooterIsDecommisionedException();
+        }
     }
 
 }
