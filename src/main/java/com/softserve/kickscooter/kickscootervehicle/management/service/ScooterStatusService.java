@@ -62,14 +62,12 @@ public class ScooterStatusService implements StatusService {
         return true;
     }
 
-    @Transactional
     public ScooterStatus getCurrentStatus(UUID id) {
         Scooter scooter = scooterRepo.findById(id).orElseThrow(ScooterNotFoundException::new);
         checkDecomissioned(scooter);
         return scooter.getStatus();
     }
 
-    @Transactional
     public void saveActualStatusData(ScooterStatusDto dto){
         Scooter scooter = scooterRepo.findById(dto.getId()).orElseThrow(ScooterNotFoundException::new);
         scooter.setActualLatitude(dto.getGpsPoint().getX());
