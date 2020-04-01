@@ -35,26 +35,6 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <createTable tableName="scooter_status_details">
-            <column name="id" type="bigint">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="scooter_id" type="uuid">
-                <constraints nullable="false"/>
-            </column>
-            <column name="longitude" type="double precision">
-                <constraints nullable="false"/>
-            </column>
-            <column name="latitude" type="double precision">
-                <constraints nullable="false"/>
-            </column>
-            <column name="battery" type="smallint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="when" type="timestamp">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
     </changeSet>
 
 </databaseChangeLog>
