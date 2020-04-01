@@ -29,11 +29,11 @@ public class Scooter {
     @Enumerated(EnumType.STRING)
     private ScooterStatus status;
 
-    private Double actualLongitude;
+    private double actualLongitude;
 
-    private Double actualLatitude;
+    private double actualLatitude;
 
-    private Short battery;
+    private short battery;
 
 
 }

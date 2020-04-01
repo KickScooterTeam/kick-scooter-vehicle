@@ -3,6 +3,7 @@ package com.softserve.kickscooter.kickscootervehicle.management.controller;
 import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterRawDataDto;
 import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterStatusDto;
 import com.softserve.kickscooter.kickscootervehicle.management.exceptions.ScooterIsDecommisionedException;
+import com.softserve.kickscooter.kickscootervehicle.management.exceptions.ScooterNotFoundException;
 import com.softserve.kickscooter.kickscootervehicle.management.model.ScooterStatus;
 import com.softserve.kickscooter.kickscootervehicle.management.service.StatusService;
 import lombok.AllArgsConstructor;
@@ -58,8 +59,8 @@ public class KafkaController {
             }
         } catch (ScooterIsDecommisionedException e){
             log.error("Received from DECOMMISSIONED scooter '{}' : {}", RAW_DATA, rawDto);
+        } catch (ScooterNotFoundException e){
+            log.error("Received from non-exist scooter '{}' : {}", RAW_DATA, rawDto);
         }
-
     }
-
 }

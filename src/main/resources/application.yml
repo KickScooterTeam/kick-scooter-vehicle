@@ -1,14 +1,13 @@
 spring:
     datasource:
-        password: ${db_password}
-        url: ${db_url}
-        username: ${db_login}
+        password: ${DB_PASSWORD}
+        url: ${DB_URL}
+        username: ${DB_LOGIN}
     jpa:
         hibernate:
             ddl-auto: validate
-        show-sql: true
     kafka:
-        bootstrap-servers: localhost:9092,localhost:9093
+        bootstrap-servers: ${BOOTSTRAP_SERVERS}
         producer:
             value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
             properties:
@@ -22,3 +21,4 @@ spring:
                     raw:com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterRawDataDto
     liquibase:
         change-log: classpath:/db/changelog/db.changelog-master.xml
+
