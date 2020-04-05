@@ -30,25 +30,25 @@ public class StatusController {
         return ResponseEntity.ok(status);
     }
 
-    @PutMapping("/acquire/{id}")
+    @PutMapping("/{id}/acquire")
     public ResponseEntity<String> acquireScooter(@PathVariable UUID id){
         statusService.acquireScooter(id);
         return ResponseEntity.ok("Successful aquire scooter, id " + id);
     }
 
-    @PutMapping("/free/{id}")
+    @PutMapping("/{id}/free")
     public ResponseEntity<String> freeScooter(@PathVariable UUID id){
         statusService.freeScooter(id);
         return ResponseEntity.ok("Successful free scooter, id " + id);
     }
 
-    @PutMapping("/retrieve/{id}")
+    @PutMapping("/{id}/retrieve")
     public ResponseEntity<String> retrieveScooter(@PathVariable UUID id){
         statusService.retrieveScooter(id);
         return ResponseEntity.ok("Successful retrieve scooter, id " + id);
     }
 
-    @PutMapping("/inspect/{id}")
+    @PutMapping("/{id}/inspect")
     public ResponseEntity<String> takeScooterOnInspection(@PathVariable UUID id){
         statusService.onInspection(id);
         return ResponseEntity.ok("Successful take scooter on inspection, id " + id);
