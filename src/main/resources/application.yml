@@ -1,8 +1,10 @@
 spring:
+    application:
+        name: vehicle-service
     datasource:
-        password: ${DB_PASSWORD}
-        url: ${DB_URL}
-        username: ${DB_LOGIN}
+        url: ${DATABASE_URL}
+        username: ${DATABASE_USERNAME}
+        password: ${DATABASE_PASSWORD}
     jpa:
         hibernate:
             ddl-auto: validate
@@ -21,3 +23,8 @@ spring:
                     raw:com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterRawDataDto
     liquibase:
         change-log: classpath:/db/changelog/db.changelog-master.xml
+
+eureka:
+    client:
+        service-url:
+            defaultZone: http://${EUREKA_SERVER}/eureka/
