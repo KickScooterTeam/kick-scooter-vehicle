@@ -31,7 +31,7 @@
             <column name="actual_latitude" type="double precision">
                 <constraints nullable="false"/>
             </column>
-            <column name="battery" type="smallint">
+            <column name="battery" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>
