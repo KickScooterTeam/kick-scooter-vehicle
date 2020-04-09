@@ -9,5 +9,5 @@ public class ScooterRawDataDto {
     UUID id;
     double latitude;
     double longitude;
-    short battery;
+    int battery;
 }
