@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="changelog-1.0" author="foxrev">
+        <createTable tableName="scooter">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="serial_number" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="model_name" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="register_date" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expired_date" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="status" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="actual_longitude" type="double precision">
+                <constraints nullable="false"/>
+            </column>
+            <column name="actual_latitude" type="double precision">
+                <constraints nullable="false"/>
+            </column>
+            <column name="battery" type="smallint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

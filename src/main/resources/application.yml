@@ -1,0 +1,30 @@
+spring:
+    application:
+        name: vehicle-service
+    datasource:
+        url: ${DATABASE_URL}
+        username: ${DATABASE_USERNAME}
+        password: ${DATABASE_PASSWORD}
+    jpa:
+        hibernate:
+            ddl-auto: validate
+    kafka:
+        bootstrap-servers: ${BOOTSTRAP_SERVERS}
+        producer:
+            value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+            properties:
+                spring.json.type.mapping: >
+                    status:com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterStatusDto
+        consumer:
+            group-id: scooter
+            value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            properties:
+                spring.json.type.mapping: >
+                    raw:com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterRawDataDto
+    liquibase:
+        change-log: classpath:/db/changelog/db.changelog-master.xml
+
+eureka:
+    client:
+        service-url:
+            defaultZone: http://${EUREKA_SERVER}/eureka/
