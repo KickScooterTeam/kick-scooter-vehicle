@@ -11,5 +11,5 @@ public class ScooterStatusDto {
     UUID id;
     ScooterStatus status;
     Point gpsPoint;
-    Short battery;
+    Integer battery;
 }
