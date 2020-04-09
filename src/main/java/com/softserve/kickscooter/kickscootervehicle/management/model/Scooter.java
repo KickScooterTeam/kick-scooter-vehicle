@@ -33,7 +33,7 @@ public class Scooter {
 
     private double actualLatitude;
 
-    private short battery;
+    private int battery;
 
 
 }
