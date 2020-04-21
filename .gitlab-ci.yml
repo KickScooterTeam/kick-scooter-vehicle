@@ -1,0 +1,20 @@
+---
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script: 
+    - mvn clean package -DskipTests
+    - sudo docker build -t gitlab.sslsecure.website:5050/root/kick-scooter-trip:vehicle .
+    - sudo docker push gitlab.sslsecure.website:5050/root/kick-scooter-trip:vehicle
+  when: manual
+
+deploy:
+  stage: deploy
+  script:
+    - ssh $USERNAME@$IP "bash /var/deploy.sh"
+  after_script:
+    - docker image prune -a -f &>/dev/null
+  when: manual
