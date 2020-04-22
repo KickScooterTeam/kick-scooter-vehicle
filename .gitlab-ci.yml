@@ -6,10 +6,10 @@ stages:
 build:
   stage: build
   script: 
+    - cp /home/sumo_credentials.txt ./sumo_credentials.txt    
     - mvn clean package -DskipTests
     - sudo docker build -t gitlab.sslsecure.website:5050/root/kick-scooter-trip:vehicle .
     - sudo docker push gitlab.sslsecure.website:5050/root/kick-scooter-trip:vehicle
-  when: manual
 
 deploy:
   stage: deploy
@@ -17,4 +17,3 @@ deploy:
     - ssh $USERNAME@$IP "cd /var/ && sudo bash /var/deploy.sh"
   after_script:
     - docker image prune -a -f &>/dev/null
-  when: manual
