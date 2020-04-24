@@ -15,6 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/scooters/status")
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class StatusController {
 
     private StatusService statusService;
