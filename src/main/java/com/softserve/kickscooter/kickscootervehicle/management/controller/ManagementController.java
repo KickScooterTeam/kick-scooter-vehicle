@@ -20,7 +20,6 @@ import java.util.UUID;
 @PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/scooters")
 @AllArgsConstructor
-@CrossOrigin(origins = "*")
 public class ManagementController {
 
     private ManagementService service;
