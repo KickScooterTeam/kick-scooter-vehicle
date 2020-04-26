@@ -1,6 +1,7 @@
 package com.softserve.kickscooter.kickscootervehicle.management.controller;
 
 import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterStatusDto;
+import com.softserve.kickscooter.kickscootervehicle.management.dto.UiPointDto;
 import com.softserve.kickscooter.kickscootervehicle.management.model.ScooterStatus;
 import com.softserve.kickscooter.kickscootervehicle.management.service.StatusService;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -18,6 +20,11 @@ import java.util.UUID;
 public class StatusController {
 
     private StatusService statusService;
+
+    @GetMapping("/free")
+    public ResponseEntity<List<UiPointDto>> getFreeScooters(){
+        return ResponseEntity.ok(statusService.getFreeScooters());
+    }
 
     @GetMapping("/{id}/details")
     public ResponseEntity<ScooterStatusDto> getScooterStatusDetails(@PathVariable UUID id){

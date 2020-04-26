@@ -1,6 +1,7 @@
 package com.softserve.kickscooter.kickscootervehicle.management.service;
 
 import com.softserve.kickscooter.kickscootervehicle.management.dto.ScooterStatusDto;
+import com.softserve.kickscooter.kickscootervehicle.management.dto.UiPointDto;
 import com.softserve.kickscooter.kickscootervehicle.management.exceptions.ScooterIsDecommisionedException;
 import com.softserve.kickscooter.kickscootervehicle.management.exceptions.ScooterIsNotRechargedException;
 import com.softserve.kickscooter.kickscootervehicle.management.exceptions.ScooterNotFoundException;
@@ -11,8 +12,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -74,6 +76,15 @@ public class ScooterStatusService implements StatusService {
         scooter.setActualLongitude(dto.getGpsPoint().getY());
         scooter.setBattery(dto.getBattery());
         scooterRepo.save(scooter);
+    }
+
+    @Override
+    public List<UiPointDto> getFreeScooters() {
+        return scooterRepo
+                .findByStatus(ScooterStatus.FREE)
+                .stream()
+                .map(scooter -> convService.convert(scooter, UiPointDto.class))
+                .collect(Collectors.toList());
     }
 
     private void checkDecomissioned(Scooter scooter){
