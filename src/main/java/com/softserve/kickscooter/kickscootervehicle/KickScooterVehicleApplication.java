@@ -12,5 +12,4 @@ public class KickScooterVehicleApplication {
 		SpringApplication.run(KickScooterVehicleApplication.class, args);
 	}
 
-
 }
