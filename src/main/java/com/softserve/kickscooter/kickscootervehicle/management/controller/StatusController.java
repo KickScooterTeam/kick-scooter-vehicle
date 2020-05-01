@@ -26,6 +26,11 @@ public class StatusController {
         return ResponseEntity.ok(statusService.getFreeScooters());
     }
 
+    @GetMapping("/in-use")
+    public ResponseEntity<List<UiPointDto>> getInUseScooters(){
+        return ResponseEntity.ok(statusService.getInUseScooters());
+    }
+
     @GetMapping("/{id}/details")
     public ResponseEntity<ScooterStatusDto> getScooterStatusDetails(@PathVariable UUID id){
         ScooterStatusDto status = statusService.getScooterStatusDetails(id);

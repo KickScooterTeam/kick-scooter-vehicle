@@ -87,6 +87,15 @@ public class ScooterStatusService implements StatusService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<UiPointDto> getInUseScooters() {
+        return scooterRepo
+                .findByStatus(ScooterStatus.IN_USE)
+                .stream()
+                .map(scooter -> convService.convert(scooter, UiPointDto.class))
+                .collect(Collectors.toList());
+    }
+
     private void checkDecomissioned(Scooter scooter){
         if(scooter.getStatus() == ScooterStatus.DECOMMISSIONED){
             throw new ScooterIsDecommisionedException();

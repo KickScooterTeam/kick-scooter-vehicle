@@ -18,4 +18,5 @@ public interface StatusService {
     void saveActualStatusData(ScooterStatusDto dto);
 
     List<UiPointDto> getFreeScooters();
+    List<UiPointDto> getInUseScooters();
 }
